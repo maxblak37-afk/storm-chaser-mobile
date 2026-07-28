@@ -381,7 +381,7 @@ let droppedProbes=[];
 
 let inLobby = false;
 let lobbyPlayers = [];
-let lobbyTimer = 60;
+let lobbyTimer = 15;
 let lobbyInterval = null;
 
 /* ================= MENU NAVIGATION ================= */
@@ -1959,17 +1959,17 @@ function mpRandomJoin() {
   showScreen('lobby');
   
   if (peer && !peer.disconnected && !peer.destroyed) { _tryJoinLobby(); return; }
-  peer = new Peer({ host: 'actress-those-taxation-refrigerator.trycloudflare.com', port: 443, path: '/', secure: true }); 
+  peer = new Peer({ host: 'males-teaches-postings-background.trycloudflare.com', port: 443, path: '/', secure: true }); 
   peer.on('open', id => { _tryJoinLobby(); });
   peer.on('error', err => { 
     if(err.type === 'peer-unavailable') {
       peer.destroy();
-      peer = new Peer(GLOBAL_ROOM_ID, { host: 'actress-those-taxation-refrigerator.trycloudflare.com', port: 443, path: '/', secure: true });
+      peer = new Peer(GLOBAL_ROOM_ID, { host: 'males-teaches-postings-background.trycloudflare.com', port: 443, path: '/', secure: true });
       peer.on('open', id => {
         isHost = true;
         inLobby = true;
         lobbyPlayers = [{ id: 'host', name: myName }];
-        lobbyTimer = 60;
+        lobbyTimer = 15;
         updateLobbyUI();
         flashMenuMsg("You are the HOST of the Global Lobby!");
         setupHostEvents();
@@ -2024,7 +2024,7 @@ function startLobbyTimer() {
     if (lobbyPlayers.length >= 2) {
       lobbyTimer--;
     } else {
-      lobbyTimer = 60;
+      lobbyTimer = 15;
     }
     updateLobbyUI();
     broadcastLobbyState();
