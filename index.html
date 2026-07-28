@@ -1975,10 +1975,15 @@ function mpRandomJoin() {
         setupHostEvents();
         startLobbyTimer();
       });
-      peer.on('error', e => {
-        flashMenuMsg("Error hosting: " + e.type);
-        leaveLobby();
-      });
+              peer.on('error', e => {
+          if (e.type === 'unavailable-id') {
+             flashMenuMsg("Host ID taken. Retrying join...");
+             setTimeout(() => { if (!inLobby) mpRandomJoin(); }, 2000);
+          } else {
+             flashMenuMsg("Error hosting: " + e.type);
+             leaveLobby();
+          }
+        });
     } else if(err.type === 'server-error' || err.type === 'network') {
       flashMenuMsg("Network Error: " + err.type + ". Retrying...");
       setTimeout(() => {
