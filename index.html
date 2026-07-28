@@ -27,10 +27,10 @@ window.onerror = function(msg, url, line, col, error) {
   #hint{position:fixed;bottom:64px;right:8px;font-size:12px;color:#9ab;z-index:10;text-align:right;max-width:220px;}
 
     @media (max-width: 900px) {
-      #miniRadar { width: 100px !important; height: 100px !important; }
-      #windPanel { width: 160px !important; font-size: 11px !important; bottom: 85px !important; }
-      #dashHud { font-size: 14px !important; padding: 4px 8px !important; }
-      #contractHud { font-size: 10px !important; padding: 4px !important; }
+      #miniRadar { width: 80px !important; height: 80px !important; }
+      #windPanel { width: 140px !important; font-size: 10px !important; bottom: 85px !important; }
+      #dashHud { font-size: 12px !important; padding: 4px 6px !important; }
+      #contractHud { font-size: 9px !important; padding: 4px !important; }
     }
 
   </style>
@@ -1979,6 +1979,11 @@ function mpRandomJoin() {
         flashMenuMsg("Error hosting: " + e.type);
         leaveLobby();
       });
+    } else if(err.type === 'server-error' || err.type === 'network') {
+      flashMenuMsg("Network Error: " + err.type + ". Retrying...");
+      setTimeout(() => {
+        if (!inLobby) joinRandomMultiplayer();
+      }, 3000);
     } else {
       flashMenuMsg("Network Error: " + err.type);
       leaveLobby();
