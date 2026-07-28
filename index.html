@@ -2274,7 +2274,7 @@ function returnBase(){
     ['engineGain','windGain','rainGain','sirenGain'].forEach(k=>audioNodes[k].gain.setTargetAtTime(0,audioCtx.currentTime,0.3));
   }
   document.getElementById('screens').classList.remove('hidden');
-  ['ui','windPanel','miniRadar','controls','hint','three','fullRadar','dashHud','contractHud','chatBox','chatInput'].forEach(id=>document.getElementById(id).classList.add('hidden'));
+  ['ui','windPanel','miniRadar','controls','hint','three','fullRadar','dashHud','contractHud','chatBox','chatInput','mobileControls'].forEach(id=>{const el=document.getElementById(id); if(el) el.classList.add('hidden');});
   radarFullOpen=false;
   document.getElementById('money').textContent=money;
   flashMenuMsg('Вернулись на базу. Деньги: $'+money);
