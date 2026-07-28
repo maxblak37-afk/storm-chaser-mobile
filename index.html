@@ -25,7 +25,15 @@ window.onerror = function(msg, url, line, col, error) {
   #windPanel{position:fixed;left:8px;bottom:64px;width:230px;background:#0b0f14ee;border:1px solid #2a3348;border-radius:8px;padding:10px;font-size:13px;z-index:10;}
   #miniRadar{position:fixed;top:8px;right:8px;width:170px;height:170px;background:#04140a;border:2px solid #2f6;border-radius:50%;z-index:10;box-shadow:0 0 12px #0f06;}
   #hint{position:fixed;bottom:64px;right:8px;font-size:12px;color:#9ab;z-index:10;text-align:right;max-width:220px;}
-</style>
+
+    @media (max-width: 900px) {
+      #miniRadar { width: 100px !important; height: 100px !important; }
+      #windPanel { width: 160px !important; font-size: 11px !important; bottom: 85px !important; }
+      #dashHud { font-size: 14px !important; padding: 4px 8px !important; }
+      #contractHud { font-size: 10px !important; padding: 4px !important; }
+    }
+
+  </style>
 </head>
 <body>
 
@@ -242,10 +250,10 @@ window.onerror = function(msg, url, line, col, error) {
 
 <div id="controls" class="hidden">
   
-  <button onclick="deployMeso()">📶 Мезонет [E]</button>
-  <button onclick="toggleFullRadar()">🗺️ Радар [M]</button>
-  <button onclick="toggleVehicle()">🚪 Выйти/сесть [F]</button>
-  <button onclick="returnBase()">🏠 На базу</button>
+  
+  
+  
+  
 </div>
 
 <div id="fullRadar" class="hidden" style="position:fixed;inset:0;background:#dfe6ea;z-index:25;font-family:Arial,sans-serif;">
@@ -1593,7 +1601,7 @@ function dropProbe(){
   if(droppedProbes.length>=1){ flashMsg('Уже стоит один зонд — подбери его (G), прежде чем ставить новый'); return; }
   if(probesCount<=0){ flashMsg('Нет зондов!'); return; }
   probesCount--;
-  document.getElementById('probes').textContent=probesCount;
+  
   const dropX = viewMode==='driving'?carX:playerX, dropZ = viewMode==='driving'?carZ:playerZ;
   const hitCore = tornado && Math.hypot(dropX-tornado.x, dropZ-tornado.z) < tornado.radius*0.9;
   const id = probeIdCounter++;
@@ -1654,7 +1662,7 @@ function pickUpNearestProbe(){
   probeMeshes = probeMeshes.filter(p=>p!==target);
   droppedProbes = droppedProbes.filter(p=>p.id!==target.id);
   probesCount++;
-  document.getElementById('probes').textContent=probesCount;
+  
   updateContractHud();
 }
 function deployMeso(){
@@ -2245,7 +2253,7 @@ function startDrive(){
   if(interiorGroup) interiorGroup.visible = true;
   if(tornadoGroup) tornadoGroup.clear();
   document.getElementById('moneyGame').textContent=money;
-  document.getElementById('probes').textContent=probesCount;
+  
   running=true;
   clock.getDelta();
   requestAnimationFrame(loop);
