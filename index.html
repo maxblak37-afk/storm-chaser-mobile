@@ -1960,41 +1960,36 @@ function mpRandomJoin() {
     
     if (peer && !peer.disconnected && !peer.destroyed) { _tryJoinLobby(); return; }
     
-    flashMenuMsg("Testing lobby availability...");
+    flashMenuMsg("Looking for host...");
     
-    // Attempt to become the HOST
-    peer = new Peer(GLOBAL_ROOM_ID, { host: 'males-teaches-postings-background.trycloudflare.com', port: 443, path: '/', secure: true });
+    peer = new Peer({ host: 'males-teaches-postings-background.trycloudflare.com', port: 443, path: '/', secure: true });
     
     peer.on('open', id => {
-        // We are the host!
-        isHost = true;
-        inLobby = true;
-        lobbyPlayers = [{ id: 'host', name: myName }];
-        lobbyTimer = 15;
-        updateLobbyUI();
-        flashMenuMsg("You are the HOST of the Global Lobby!");
-        setupHostEvents();
-        startLobbyTimer();
+        _tryJoinLobby();
     });
     
     peer.on('error', err => {
-        if (err.type === 'unavailable-id') {
-            // Room exists! We should join it as a client.
-            flashMenuMsg("Lobby found! Joining...");
+        if (err.type === 'peer-unavailable') {
+            flashMenuMsg("No host found. Creating lobby...");
             peer.destroy();
             
-            // Recreate peer with random ID
             setTimeout(() => {
-                peer = new Peer({ host: 'males-teaches-postings-background.trycloudflare.com', port: 443, path: '/', secure: true });
+                peer = new Peer(GLOBAL_ROOM_ID, { host: 'males-teaches-postings-background.trycloudflare.com', port: 443, path: '/', secure: true });
                 peer.on('open', id => {
-                    _tryJoinLobby();
+                    isHost = true;
+                    inLobby = true;
+                    lobbyPlayers = [{ id: 'host', name: myName }];
+                    lobbyTimer = 15;
+                    updateLobbyUI();
+                    flashMenuMsg("You are the HOST of the Global Lobby!");
+                    setupHostEvents();
+                    startLobbyTimer();
                 });
                 peer.on('error', e => {
-                    flashMenuMsg("Client Network Error: " + e.type);
+                    flashMenuMsg("Error hosting: " + e.type);
                     leaveLobby();
                 });
-            }, 500); // give it a moment to destroy
-            
+            }, 500);
         } else if (err.type === 'server-error' || err.type === 'network') {
             flashMenuMsg("Network Error: " + err.type + ". Retrying...");
             setTimeout(() => {
