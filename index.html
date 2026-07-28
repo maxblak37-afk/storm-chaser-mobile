@@ -381,6 +381,8 @@ function showScreen(name){
     const el = document.getElementById(id);
     if(el) el.classList.toggle('hidden', id!=='screen'+name.charAt(0).toUpperCase()+name.slice(1));
   });
+  const mCtrl = document.getElementById('mobileControls');
+  if(mCtrl) mCtrl.classList.add('hidden');
   if(name==='vehicle') renderTierList();
   if(name==='equipment') renderEquipList();
 }
@@ -2178,6 +2180,7 @@ function startDrive(){
   stopMenuScene();
   document.getElementById('screens').classList.add('hidden');
   ['ui','windPanel','miniRadar','controls','hint','three','dashHud','contractHud','chatBox'].forEach(id=>document.getElementById(id).classList.remove('hidden'));
+  if(window.isMobile) document.getElementById('mobileControls').classList.remove('hidden');
   if(!scene) initThree();
   applyTierStats();
   carX = (!isHost && mpConnections.length > 0) ? (Math.random()*15 - 7.5) : 0; 
