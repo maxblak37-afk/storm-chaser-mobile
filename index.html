@@ -2022,7 +2022,16 @@ function _tryJoinLobby() {
         flashMenuMsg("Connection failed.");
         leaveLobby();
     });
-});
+}
+
+function setupHostEvents() {
+  peer.on('connection', conn => {
+    mpConnections.push(conn);
+    mpSetupConnection(conn);
+    if (!inLobby) {
+      conn.send({ type: 'world_state', cape: currentCAPE, shear: currentShear, windDir: globalWindDir, phase: stormPhase, timer: phaseTimer, tornado: tornado, peers: getPeerData() });
+    }
+  });
 }
 
 function startLobbyTimer() {
