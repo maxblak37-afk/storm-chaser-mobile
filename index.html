@@ -1982,7 +1982,7 @@ function mpRandomJoin() {
     } else if(err.type === 'server-error' || err.type === 'network') {
       flashMenuMsg("Network Error: " + err.type + ". Retrying...");
       setTimeout(() => {
-        if (!inLobby) joinRandomMultiplayer();
+        if (!inLobby) mpRandomJoin();
       }, 3000);
     } else {
       flashMenuMsg("Network Error: " + err.type);
